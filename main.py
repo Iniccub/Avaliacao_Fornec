@@ -1,3 +1,5 @@
+from asyncore import write
+
 import streamlit as st
 import pandas as pd
 import os
@@ -6,26 +8,45 @@ from streamlit_js_eval import streamlit_js_eval
 from io import BytesIO
 
 st.set_page_config(
-    page_title='Avaliação de Fornecedores.',
+    page_title='Avaliação de Fornecedores',
     page_icon='CSA.png',
     layout='wide'
 )
 
 # Listas fixas
-unidades = ['CSA - BH', 'CSA - CTG', 'CSA - NL', 'CSA - GZ', 'CSA - DV', 'EPSA', 'ESA', 'AIACOM', 'ILALI', 'ADEODATO', 'SIC']
+unidades = ['CSA-BH', 'CSA-CT', 'CSA-NL', 'CSA-GZ', 'CSA-DV', 'EPSA', 'ESA', 'AIACOM', 'ILALI', 'ADEODATO', 'SIC SEDE']
 meses = ['31/01/2025', '28/02/2025', '31/03/2025', '30/04/2025', '31/05/2025', '30/06/2025', '31/07/2025', '31/08/2025',
          '30/09/2025', '31/10/2025', '30/11/2025', '31/12/2025']
-fornecedores = ['Cantina Freitas',
-                'Expressa Turismo',
-                'Acredite Excursões e Exposição itinerante',
-                'Leal Viagens e Turismo',
-                'MinasCopy Nacional EIRELI',
-                'Otimiza Vigilância e Segurança Patrimonial',
-                'Petrus',
-                'Real Vans',
-                'Actur Turismo LTDA',
-                'Transcelo',
-                'AC Transportes e Serviços LTDA'
+fornecedores = ['CANTINA FREITAS',
+                'EXPRESSA TURISMO LTDA',
+                'ACREDITE EXCURSÕES E EXPOSIÇÕES INTINERANTE LTDA',
+                'LEAL VIAGENS E TURISMO',
+                'MINASCOPY NACIONAL EIRELLI',
+                'OTIMIZA VIGILÂNCIA E SEG. PATRIMONIAL',
+                'PETRUS LOCACAO E SERVICOS LTDA',
+                'REAL VANS LOCAÇÕES',
+                'AC TRANSPORTES E SERVIÇOS LTDA - ACTUR',
+                'TRANSCELO TRANSPORTES LTDA',
+                'AC Transportes e Serviços LTDA',
+                'GULP SÃO TOMAS',
+                'NUTRIMIX - EXCELÊNCIA EM ALIMENTAÇÃO',
+                'SALADA & TAL ( PAOLA OLIVEIRA COSTA )'
+                'ELEVADORES ATLAS SCHINDLER LTDA',
+                'TK ELEVADORES BRASIL LTDA',
+                'ELEVAÇO LTDA',
+                'JD CONSERVAÇÃO E SERVIÇOS',
+                'QA - IT ANSWER - CONSULTORIA - N1',
+                'QA - IT ANSWER - CONSULTORIA - N2',
+                'MODERNA TURISMO LTDA',
+                'XINGU ELEVADORES',
+                'PHP SERVICE EIRELI',
+                'CAMPOS DE MINAS SERV. ORG. PROG.TURÍSTICOS',
+                'ACCESS GESTÃO DE DOCUMENTOS LTDA',
+                'BOCAINA CIENCIAS NATURAIS & EDUCACAO AMBIENTAL',
+                'NOVA FORMA VIAGENS E TURISMO',
+                'CONSERVADORA CIDADE LC',
+                'CONSERVADORA CIDADE PC',
+                'OTIS ELEVADORES'
                 ]
 opcoes = ['Atende Totalmente', 'Atende Parcialmente', 'Não Atende', 'Não se Aplica']
 
@@ -56,7 +77,7 @@ fornecedor = st.sidebar.selectbox('Selecione o fornecedor a ser avaliado', index
 
 # Dicionário de perguntas por fornecedor
 perguntas_por_fornecedor = {
-    'Cantina Freitas': {
+    'CANTINA FREITAS': {
         'Atividades Operacionais': [
             '1 - O quantitativo (quadro efetivo) de funcionários da contratada está conforme a necessidade exigida para o atendimento?',
             '2 - A Cantina cumpre a escala de horarios conforme acordado em contrato, observando pontualmente os horários de entrada e saída?',
@@ -92,7 +113,7 @@ perguntas_por_fornecedor = {
             '6 - Oferecem e fornecem, sempre que necessário, alimentação especial para os alunos, pais de aluno e/ou empregados que possuam alguma restrição alimentar ou dieta especial, recomendada por profissional de saúde?'
         ]
     },
-    'Expressa Turismo': {
+    'EXPRESSA TURISMO LTDA': {
         'Atividades Operacionais': [
             '1 - A Contratada disponibiliza veículos em perfeitas condições de conservação e funcionamento mecânico, limpeza externa e interna e de segurança, em conformidade com as exigências legais e demais normas existentes?',
             '2 - A Contratada disponibiliza os veículos após o recebimento da autorização de início dos serviços, nos locais e horários fixados pelo Colégio, cumprindo pontualmente os horários  acordados de saída e retorno, conforme alinhado previamente?',
@@ -122,7 +143,7 @@ perguntas_por_fornecedor = {
             '4 - Os profissionais da contratada transmitem segurança e conhecimento técnico na execução de suas tarefas?'
         ]
     },
-'Leal Viagens e Turismo': {
+'LEAL VIAGENS E TURISMO': {
         'Atividades Operacionais': [
             '1 - A Contratada disponibiliza veículos em perfeitas condições de conservação e funcionamento mecânico, limpeza externa e interna e de segurança, em conformidade com as exigências legais e demais normas existentes?',
             '2 - A Contratada disponibiliza os veículos após o recebimento da autorização de início dos serviços, nos locais e horários fixados pelo Colégio, cumprindo pontualmente os horários  acordados de saída e retorno, conforme alinhado previamente?',
@@ -152,7 +173,7 @@ perguntas_por_fornecedor = {
             '4 - Os profissionais da contratada transmitem segurança e conhecimento técnico na execução de suas tarefas?'
         ]
     },
-'Acredite Excursões e Exposição itinerante': {
+'ACREDITE EXCURSÕES E EXPOSIÇÕES INTINERANTE LTDA': {
         'Atividades Operacionais': [
             '1 - A Contratada disponibiliza veículos em perfeitas condições de conservação e funcionamento mecânico, limpeza externa e interna e de segurança, em conformidade com as exigências legais e demais normas existentes?',
             '2 - A Contratada disponibiliza os veículos após o recebimento da autorização de início dos serviços, nos locais e horários fixados pelo Colégio, cumprindo pontualmente os horários  acordados de saída e retorno, conforme alinhado previamente?',
@@ -182,7 +203,7 @@ perguntas_por_fornecedor = {
             '4 - Os profissionais da contratada transmitem segurança e conhecimento técnico na execução de suas tarefas?'
         ]
     },
-'Real Vans': {
+'REAL VANS LOCAÇÕES': {
         'Atividades Operacionais': [
             '1 - A Contratada disponibiliza veículos em perfeitas condições de conservação e funcionamento mecânico, limpeza externa e interna e de segurança, em conformidade com as exigências legais e demais normas existentes?',
             '2 - A Contratada disponibiliza os veículos após o recebimento da autorização de início dos serviços, nos locais e horários fixados pelo Colégio, cumprindo pontualmente os horários  acordados de saída e retorno, conforme alinhado previamente?',
@@ -212,7 +233,7 @@ perguntas_por_fornecedor = {
             '4 - Os profissionais da contratada transmitem segurança e conhecimento técnico na execução de suas tarefas?'
         ]
     },
-'AC Transportes e Serviços LTDA': {
+'AC TRANSPORTES E SERVIÇOS LTDA - ACTUR': {
         'Atividades Operacionais': [
             '1 - A Contratada disponibiliza veículos em perfeitas condições de conservação e funcionamento mecânico, limpeza externa e interna e de segurança, em conformidade com as exigências legais e demais normas existentes?',
             '2 - A Contratada disponibiliza os veículos após o recebimento da autorização de início dos serviços, nos locais e horários fixados pelo Colégio, cumprindo pontualmente os horários  acordados de saída e retorno, conforme alinhado previamente?',
@@ -242,7 +263,7 @@ perguntas_por_fornecedor = {
             '4 - Os profissionais da contratada transmitem segurança e conhecimento técnico na execução de suas tarefas?'
         ]
     },
-'Transcelo': {
+'TRANSCELO TRANSPORTES LTDA': {
         'Atividades Operacionais': [
             '1 - A Contratada disponibiliza veículos em perfeitas condições de conservação e funcionamento mecânico, limpeza externa e interna e de segurança, em conformidade com as exigências legais e demais normas existentes?',
             '2 - A Contratada disponibiliza os veículos após o recebimento da autorização de início dos serviços, nos locais e horários fixados pelo Colégio, cumprindo pontualmente os horários  acordados de saída e retorno, conforme alinhado previamente?',
@@ -272,7 +293,7 @@ perguntas_por_fornecedor = {
             '4 - Os profissionais da contratada transmitem segurança e conhecimento técnico na execução de suas tarefas?'
         ]
     },
-'MinasCopy Nacional EIRELI': {
+'MINASCOPY NACIONAL EIRELLI': {
         'Atividades Operacionais': [
             '1 - O quantitativo (quadro efetivo) de funcionários da contratada está conforme especificação e acordado em contrato?',
             '2 - Os funcionários cumprem a escala de serviço, observando pontualmente os horários de entrada e saída, sendo assíduos e pontuais ao trabalho?',
@@ -301,7 +322,7 @@ perguntas_por_fornecedor = {
             '6 - Os funcionários da contratada zelam pelos materiais e equipamentos quando estão dentro das dependências do colégio?'
         ]
     },
-'Otimiza Vigilância e Segurança Patrimonial': {
+'OTIMIZA VIGILÂNCIA E SEG. PATRIMONIAL': {
         'Atividades Operacionais': [
             '1 - O quantitativo (quadro efetivo) de funcionários da contratada está conforme especificação e acordado em contrato?',
             '2 - Os funcionários cumprem a escala de serviço, observando pontualmente os horários de entrada e saída, sendo assíduos e pontuais ao trabalho?',
@@ -391,6 +412,14 @@ if fornecedor and unidade and periodo:
 
     st.sidebar.write('---')
 
+    # Após coletar as perguntas e respostas de cada aba
+    categorias = (
+            ['Atividades Operacionais'] * len(perguntas_tab1) +
+            ['Segurança'] * len(perguntas_tab2) +
+            ['Documentação'] * len(perguntas_tab3) +
+            ['Qualidade'] * len(perguntas_tab4)
+    )
+
     if st.sidebar.button('Salvar pesquisa'):
         # Verifica se todas as perguntas foram respondidas
         if None in respostas:
@@ -401,6 +430,7 @@ if fornecedor and unidade and periodo:
                 'Unidade': unidade,
                 'Período': periodo,
                 'Fornecedor': fornecedor,
+                'categorias': categorias,
                 'Pergunta': perguntas,
                 'Resposta': respostas
             })
