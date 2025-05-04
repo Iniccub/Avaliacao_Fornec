@@ -3,6 +3,7 @@ import pandas as pd
 import os
 from openpyxl import load_workbook
 from streamlit_js_eval import streamlit_js_eval
+from io import BytesIO
 
 st.set_page_config(
     page_title='Avaliação de Fornecedores.',
@@ -11,7 +12,7 @@ st.set_page_config(
 )
 
 # Listas fixas
-unidades = ['CSA - BH', 'CSA - CTG', 'CSA - NL', 'CSA - NL', 'CSA - DV', 'EPSA', 'ESA', 'AIACOM']
+unidades = ['CSA - BH', 'CSA - CTG', 'CSA - NL', 'CSA - GZ', 'CSA - DV', 'EPSA', 'ESA', 'AIACOM']
 meses = ['31/01/2025', '28/02/2025', '31/03/2025', '30/04/2025', '31/05/2025', '30/06/2025', '31/07/2025', '31/08/2025',
          '30/09/2025', '31/10/2025', '30/11/2025', '31/12/2025']
 fornecedores = ['Cantina Freitas', 'Expressa Turismo', 'Acredite Excursões e Exposição itinerante', 'Leal Viagens e Turismo',
@@ -141,32 +142,26 @@ if fornecedor and unidade and periodo:
                 'Resposta': respostas
             })
 
-            # Caminho para o arquivo Excel existente
-            excel_path = 'C:\\Users\\felip\OneDrive\\Estudos_Python\\Avaliação de Fornecedores\\avaliacoes.xlsx'
+            # Formata o noem do arquivo com base no fornecedor e periodo
+            nome_fornecedor = fornecedor.replace(' ', '_')
+            nome_periodo = periodo.replace('/', '-')
+            nome_arquivo = f'{nome_fornecedor}_{nome_periodo}.xlsx'
 
-            try:
-                if os.path.exists(excel_path):
-                    # Carrega o workbook existente
-                    book = load_workbook(excel_path)
-                    if 'Avaliacao' in book.sheetnames:
-                        # Lê os dados existentes
-                        df_existente = pd.read_excel(excel_path, sheet_name='Avaliacao')
-                        # Concatena os novos dados
-                        df_completo = pd.concat([df_existente, df_respostas], ignore_index=True)
-                    else:
-                        # Se a planilha não existir, cria uma nova
-                        df_completo = df_respostas
-                else:
-                    # Se o arquivo não existir, cria um novo
-                    df_completo = df_respostas
+            # Salva o DataFrame em um objeto BytesIO
+            output = BytesIO()
+            with pd.ExcelWriter(output, engine='openpyxl') as writer:
+                df_respostas.to_excel(writer, index=False)
+            output.seek(0)
 
-                # Salva os dados no arquivo Excel
-                with pd.ExcelWriter(excel_path, engine='openpyxl', mode='w') as writer:
-                    df_completo.to_excel(writer, sheet_name='Avaliacao', index=False)
+            # Cria um botão de download no streamlit
+            st.download_button(
+                label='Clique aqui para baixar o arquivo Excel com as respostas',
+                data=output,
+                file_name=nome_arquivo,
+                mime='application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'
+            )
 
-                st.success('Respostas salvas com sucesso no arquivo Excel existente!')
-            except Exception as e:
-                st.error(f'Ocorreu um erro ao salvar as respostas: {e}')
+            st.success('Respostas processadas com sucesso! Você pode baixar o arquivo acima')
     else:
         st.warning('Por favor, selecione a unidade, o período e o fornecedor para iniciar a avaliação.')
 
