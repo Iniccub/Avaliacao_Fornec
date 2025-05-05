@@ -19,7 +19,7 @@ fornecedores = ['CANTINA FREITAS',
                 'EXPRESSA TURISMO LTDA',
                 'ACREDITE EXCURSÕES E EXPOSIÇÕES INTINERANTE LTDA',
                 'LEAL VIAGENS E TURISMO',
-                'MINASCOPY NACIONAL EIRELLI',
+                'MINASCOPY NACIONAL EIRELI',
                 'OTIMIZA VIGILÂNCIA E SEG. PATRIMONIAL',
                 'PETRUS LOCACAO E SERVICOS LTDA',
                 'REAL VANS LOCAÇÕES',
@@ -138,7 +138,7 @@ perguntas_por_fornecedor = {
             '5 - A Contratada possui seguro de Acidentes pessoais, extensivo aos passageiros, e outros exigidos por Lei?'
         ]
     },
-'MINASCOPY NACIONAL EIRELLI': {
+'MINASCOPY NACIONAL EIRELI': {
         'Documentação': [
             '1 - Os documentos obrigatórios para análise e faturamento foram entregues dentro do prazo acordado em contrato?',
             '2 - A contratada apresentou todas as documentações exigidas, conforme contrato com os devidos recolhimentos e pagamentos?',

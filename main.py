@@ -19,7 +19,7 @@ fornecedores = ['CANTINA FREITAS',
                 'EXPRESSA TURISMO LTDA',
                 'ACREDITE EXCURSÕES E EXPOSIÇÕES INTINERANTE LTDA',
                 'LEAL VIAGENS E TURISMO',
-                'MINASCOPY NACIONAL EIRELLI',
+                'MINASCOPY NACIONAL EIRELI',
                 'OTIMIZA VIGILÂNCIA E SEG. PATRIMONIAL',
                 'PETRUS LOCACAO E SERVICOS LTDA',
                 'REAL VANS LOCAÇÕES',
@@ -242,7 +242,7 @@ perguntas_por_fornecedor = {
             '4 - Os profissionais da contratada transmitem segurança e conhecimento técnico na execução de suas tarefas?'
         ]
     },
-'MINASCOPY NACIONAL EIRELLI': {
+'MINASCOPY NACIONAL EIRELI': {
         'Atividades Operacionais': [
             '1 - O quantitativo (quadro efetivo) de funcionários da contratada está conforme especificação e acordado em contrato?',
             '2 - Os funcionários cumprem a escala de serviço, observando pontualmente os horários de entrada e saída, sendo assíduos e pontuais ao trabalho?',
