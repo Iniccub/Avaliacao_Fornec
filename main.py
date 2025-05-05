@@ -95,13 +95,6 @@ perguntas_por_fornecedor = {
             '5 - Obedecem às normas internas do colégio e desenvolvem suas atividades sem perturbar as atividades escolares normais?',
             '6 - Os funcionários da contratada transmitem segurança na execução de suas tarefas?'
         ],
-        'Documentação': [
-            '1 - Os documentos obrigatórios para análise e faturamento foram entregues dentro do prazo acordado em contrato?',
-            '2 - A contratada apresentou todas as documentações exigidas, conforme contrato com os devidos recolhimentos e pagamentos?',
-            '3 - A Nota Fiscal foi emitida com dados corretos?',
-            '4 - CND-FGTS e CRT, relativos à Regularidade Fiscal e Trabalhista, estão atualizados?',
-            '5 - Apresentam à SIC cópia autenticada do ALVARÁ DE FUNCIONAMENTO, expedido pelos órgãos competentes, por meio do qual a CONTRATADA ficará autorizada a realizar suas atividades comerciais'
-        ],
         'Qualidade': [
             '1 - Os funcionários da contratada atendem com cortesia e presteza quando solicitados?',
             '2 - Os funcionários da contratada comunicam-se com eficácia?',
@@ -127,13 +120,6 @@ perguntas_por_fornecedor = {
             '5 - Os veículos disponibilizados para a prestação de serviços estão com os cintos de segurança adequados e em funcionamento, conforme regulamentação específica?',
             '6 - Os veículos enviados para a prestação de serviços, estão equipados com tacógrafos calibrados e aferidos pelo INMETRO?'
         ],
-        'Documentação': [
-            '1 - Os documentos obrigatórios para análise e faturamento foram entregues dentro do prazo acordado em contrato?',
-            '2 - A contratada apresentou todas as documentações exigidas, conforme contrato com os devidos recolhimentos e pagamentos?',
-            '3 - A Nota Fiscal foi emitida com dados corretos?',
-            '4 - A contratada possui autorizações atualizadas (licenças específicas) que a habilitem para a prestação de serviços de transporte, expedidas pelos órgãos competentes (ANTT, DER, DETRAN, BHTRANS e/ou quaisquer outros);'
-            '5 - A Contratada possui seguro de Acidentes pessoais, extensivo aos passageiros, e outros exigidos por Lei?'
-        ],
         'Qualidade': [
             '1 - Os profissionais enviados pela Contratada para prestação de serviços são capacitados, qualificados e devidamente treinados, seguindo todas as normas e exigências da legislação brasileira, sobretudo, da legislação de trânsito brasileira?',
             '2 - O profissional da contratada estão devidamente identificados (crachá e/ou uniforme), apresentado com cortesia e presteza, prestando uma boa relação quando solicitado?',
@@ -156,13 +142,6 @@ perguntas_por_fornecedor = {
             '4 - Os funcionários mantem sigilo das informações das quais possuem acesso?',
             '5 - Os veículos disponibilizados para a prestação de serviços estão com os cintos de segurança adequados e em funcionamento, conforme regulamentação específica?',
             '6 - Os veículos enviados para a prestação de serviços, estão equipados com tacógrafos calibrados e aferidos pelo INMETRO?'
-        ],
-        'Documentação': [
-            '1 - Os documentos obrigatórios para análise e faturamento foram entregues dentro do prazo acordado em contrato?',
-            '2 - A contratada apresentou todas as documentações exigidas, conforme contrato com os devidos recolhimentos e pagamentos?',
-            '3 - A Nota Fiscal foi emitida com dados corretos?',
-            '4 - A contratada possui autorizações atualizadas (licenças específicas) que a habilitem para a prestação de serviços de transporte, expedidas pelos órgãos competentes (ANTT, DER, DETRAN, BHTRANS e/ou quaisquer outros);'
-            '5 - A Contratada possui seguro de Acidentes pessoais, extensivo aos passageiros, e outros exigidos por Lei?'
         ],
         'Qualidade': [
             '1 - Os profissionais enviados pela Contratada para prestação de serviços são capacitados, qualificados e devidamente treinados, seguindo todas as normas e exigências da legislação brasileira, sobretudo, da legislação de trânsito brasileira?',
@@ -187,13 +166,6 @@ perguntas_por_fornecedor = {
             '5 - Os veículos disponibilizados para a prestação de serviços estão com os cintos de segurança adequados e em funcionamento, conforme regulamentação específica?',
             '6 - Os veículos enviados para a prestação de serviços, estão equipados com tacógrafos calibrados e aferidos pelo INMETRO?'
         ],
-        'Documentação': [
-            '1 - Os documentos obrigatórios para análise e faturamento foram entregues dentro do prazo acordado em contrato?',
-            '2 - A contratada apresentou todas as documentações exigidas, conforme contrato com os devidos recolhimentos e pagamentos?',
-            '3 - A Nota Fiscal foi emitida com dados corretos?',
-            '4 - A contratada possui autorizações atualizadas (licenças específicas) que a habilitem para a prestação de serviços de transporte, expedidas pelos órgãos competentes (ANTT, DER, DETRAN, BHTRANS e/ou quaisquer outros);'
-            '5 - A Contratada possui seguro de Acidentes pessoais, extensivo aos passageiros, e outros exigidos por Lei?'
-        ],
         'Qualidade': [
             '1 - Os profissionais enviados pela Contratada para prestação de serviços são capacitados, qualificados e devidamente treinados, seguindo todas as normas e exigências da legislação brasileira, sobretudo, da legislação de trânsito brasileira?',
             '2 - O profissional da contratada estão devidamente identificados (crachá e/ou uniforme), apresentado com cortesia e presteza, prestando uma boa relação quando solicitado?',
@@ -216,13 +188,6 @@ perguntas_por_fornecedor = {
             '4 - Os funcionários mantem sigilo das informações das quais possuem acesso?',
             '5 - Os veículos disponibilizados para a prestação de serviços estão com os cintos de segurança adequados e em funcionamento, conforme regulamentação específica?',
             '6 - Os veículos enviados para a prestação de serviços, estão equipados com tacógrafos calibrados e aferidos pelo INMETRO?'
-        ],
-        'Documentação': [
-            '1 - Os documentos obrigatórios para análise e faturamento foram entregues dentro do prazo acordado em contrato?',
-            '2 - A contratada apresentou todas as documentações exigidas, conforme contrato com os devidos recolhimentos e pagamentos?',
-            '3 - A Nota Fiscal foi emitida com dados corretos?',
-            '4 - A contratada possui autorizações atualizadas (licenças específicas) que a habilitem para a prestação de serviços de transporte, expedidas pelos órgãos competentes (ANTT, DER, DETRAN, BHTRANS e/ou quaisquer outros);'
-            '5 - A Contratada possui seguro de Acidentes pessoais, extensivo aos passageiros, e outros exigidos por Lei?'
         ],
         'Qualidade': [
             '1 - Os profissionais enviados pela Contratada para prestação de serviços são capacitados, qualificados e devidamente treinados, seguindo todas as normas e exigências da legislação brasileira, sobretudo, da legislação de trânsito brasileira?',
@@ -247,13 +212,6 @@ perguntas_por_fornecedor = {
             '5 - Os veículos disponibilizados para a prestação de serviços estão com os cintos de segurança adequados e em funcionamento, conforme regulamentação específica?',
             '6 - Os veículos enviados para a prestação de serviços, estão equipados com tacógrafos calibrados e aferidos pelo INMETRO?'
         ],
-        'Documentação': [
-            '1 - Os documentos obrigatórios para análise e faturamento foram entregues dentro do prazo acordado em contrato?',
-            '2 - A contratada apresentou todas as documentações exigidas, conforme contrato com os devidos recolhimentos e pagamentos?',
-            '3 - A Nota Fiscal foi emitida com dados corretos?',
-            '4 - A contratada possui autorizações atualizadas (licenças específicas) que a habilitem para a prestação de serviços de transporte, expedidas pelos órgãos competentes (ANTT, DER, DETRAN, BHTRANS e/ou quaisquer outros);'
-            '5 - A Contratada possui seguro de Acidentes pessoais, extensivo aos passageiros, e outros exigidos por Lei?'
-        ],
         'Qualidade': [
             '1 - Os profissionais enviados pela Contratada para prestação de serviços são capacitados, qualificados e devidamente treinados, seguindo todas as normas e exigências da legislação brasileira, sobretudo, da legislação de trânsito brasileira?',
             '2 - O profissional da contratada estão devidamente identificados (crachá e/ou uniforme), apresentado com cortesia e presteza, prestando uma boa relação quando solicitado?',
@@ -277,13 +235,6 @@ perguntas_por_fornecedor = {
             '5 - Os veículos disponibilizados para a prestação de serviços estão com os cintos de segurança adequados e em funcionamento, conforme regulamentação específica?',
             '6 - Os veículos enviados para a prestação de serviços, estão equipados com tacógrafos calibrados e aferidos pelo INMETRO?'
         ],
-        'Documentação': [
-            '1 - Os documentos obrigatórios para análise e faturamento foram entregues dentro do prazo acordado em contrato?',
-            '2 - A contratada apresentou todas as documentações exigidas, conforme contrato com os devidos recolhimentos e pagamentos?',
-            '3 - A Nota Fiscal foi emitida com dados corretos?',
-            '4 - A contratada possui autorizações atualizadas (licenças específicas) que a habilitem para a prestação de serviços de transporte, expedidas pelos órgãos competentes (ANTT, DER, DETRAN, BHTRANS e/ou quaisquer outros);'
-            '5 - A Contratada possui seguro de Acidentes pessoais, extensivo aos passageiros, e outros exigidos por Lei?'
-        ],
         'Qualidade': [
             '1 - Os profissionais enviados pela Contratada para prestação de serviços são capacitados, qualificados e devidamente treinados, seguindo todas as normas e exigências da legislação brasileira, sobretudo, da legislação de trânsito brasileira?',
             '2 - O profissional da contratada estão devidamente identificados (crachá e/ou uniforme), apresentado com cortesia e presteza, prestando uma boa relação quando solicitado?',
@@ -304,12 +255,6 @@ perguntas_por_fornecedor = {
             '2 - Os funcionários mantem sigilo das informações das quais possuem acesso?',
             '3 - Os funcionários zelam pela segurança e cuidado com suas entregas, conforme são demandados?',
             '4 - Os Funcionarios comunicam, qualquer anormalidade em relação ao andamento dos serviços, prestando à SIC os esclarecimentos, que julgar necessários?'
-        ],
-        'Documentação': [
-            '1 - Os documentos obrigatórios para análise e faturamento foram entregues dentro do prazo acordado em contrato?',
-            '2 - A contratada apresentou todas as documentações exigidas, conforme contrato com os devidos recolhimentos e pagamentos?',
-            '3 - A Nota Fiscal foi emitida com dados corretos?',
-            '4 - CND e CRT, relativos à Regularidade Fiscal e Trabalhista, estão atualizados?'
         ],
         'Qualidade': [
             '1 - Os funcionários da contratada executam suas atividades diárias com qualidade, atendendo todas as demandas inerentes ao objeto deste contrato?',
@@ -335,12 +280,6 @@ perguntas_por_fornecedor = {
             '3 - Os funcionários mantem sigilo das informações das quais possuem acesso?',
             '4 - Os funcionários zelam pela segurança e cuidado com os funcionarios e alunos do colégio?',
             '5 - Os Funcionarios comunicam, qualquer anormalidade em relação ao andamento dos serviços, prestando à SIC os esclarecimentos, que julgar necessários?'
-        ],
-        'Documentação': [
-            '1 - Os documentos obrigatórios para análise e faturamento foram entregues dentro do prazo acordado em contrato?',
-            '2 - A contratada apresentou todas as documentações exigidas, conforme contrato com os devidos recolhimentos e pagamentos?',
-            '3 - A Nota Fiscal foi emitida com dados corretos?',
-            '4 - CND e CRT, relativos à Regularidade Fiscal e Trabalhista, estão atualizados?'
         ],
         'Qualidade': [
             '1 - Os funcionários da contratada executam suas atividades diárias com qualidade, atendendo todas as demandas inerentes ao objeto deste contrato?',
@@ -372,7 +311,7 @@ if fornecedor and unidade and periodo:
     st.write('---')
 
     # Determinação das abas
-    tab1, tab2, tab3, tab4 = st.tabs(['Atividades Operacionais', 'Segurança', 'Documentação', 'Qualidade'])
+    tab1, tab2, tab3 = st.tabs(['Atividades Operacionais', 'Segurança', 'Qualidade'])
 
     respostas = []
     perguntas = []
@@ -395,15 +334,8 @@ if fornecedor and unidade and periodo:
             perguntas.append(pergunta)
 
     with tab3:
-        perguntas_tab3 = perguntas_fornecedor.get('Documentação', [])
+        perguntas_tab3 = perguntas_fornecedor.get('Qualidade', [])
         for pergunta in perguntas_tab3:
-            resposta = st.selectbox(pergunta, options=opcoes, index=None, placeholder='Selecione uma opção', key=pergunta)
-            respostas.append(resposta)
-            perguntas.append(pergunta)
-
-    with tab4:
-        perguntas_tab4 = perguntas_fornecedor.get('Qualidade', [])
-        for pergunta in perguntas_tab4:
             resposta = st.selectbox(pergunta, options=opcoes, index=None, placeholder='Selecione uma opção', key=pergunta)
             respostas.append(resposta)
             perguntas.append(pergunta)
@@ -414,8 +346,7 @@ if fornecedor and unidade and periodo:
     categorias = (
             ['Atividades Operacionais'] * len(perguntas_tab1) +
             ['Segurança'] * len(perguntas_tab2) +
-            ['Documentação'] * len(perguntas_tab3) +
-            ['Qualidade'] * len(perguntas_tab4)
+            ['Qualidade'] * len(perguntas_tab3)
     )
 
     if st.sidebar.button('Salvar pesquisa'):
@@ -436,7 +367,8 @@ if fornecedor and unidade and periodo:
             # Formata o nome do arquivo com base no fornecedor e período
             nome_fornecedor = fornecedor.replace(' ', '_')
             nome_periodo = periodo.replace('/', '-')
-            nome_arquivo = f'{nome_fornecedor}_{nome_periodo}.xlsx'
+            nome_unidade = unidade
+            nome_arquivo = f'{nome_fornecedor}_{nome_periodo}_{unidade}.xlsx'
 
             # Salva o DataFrame em um objeto BytesIO
             output = BytesIO()
