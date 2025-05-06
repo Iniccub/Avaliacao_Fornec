@@ -4,6 +4,9 @@ import os
 from openpyxl import load_workbook
 from streamlit_js_eval import streamlit_js_eval
 from io import BytesIO
+from fornecedores import fornecedores
+from unidades import unidades
+from perguntas_por_fornecedor import perguntas_por_fornecedor
 
 st.set_page_config(
     page_title='Avaliação de Fornecedores - SUP',
@@ -12,43 +15,29 @@ st.set_page_config(
 )
 
 # Listas fixas
-unidades = ['CSA-BH', 'CSA-CT', 'CSA-NL', 'CSA-GZ', 'CSA-DV', 'EPSA', 'ESA', 'AIACOM', 'ILALI', 'ADEODATO', 'SIC SEDE']
 meses = ['31/01/2025', '28/02/2025', '31/03/2025', '30/04/2025', '31/05/2025', '30/06/2025', '31/07/2025', '31/08/2025',
          '30/09/2025', '31/10/2025', '30/11/2025', '31/12/2025']
-fornecedores = ['CANTINA FREITAS',
-                'EXPRESSA TURISMO LTDA',
-                'ACREDITE EXCURSÕES E EXPOSIÇÕES INTINERANTE LTDA',
-                'LEAL VIAGENS E TURISMO',
-                'MINASCOPY NACIONAL EIRELI',
-                'OTIMIZA VIGILÂNCIA E SEG. PATRIMONIAL',
-                'PETRUS LOCACAO E SERVICOS LTDA',
-                'REAL VANS LOCAÇÕES',
-                'AC TRANSPORTES E SERVIÇOS LTDA - ACTUR',
-                'TRANSCELO TRANSPORTES LTDA',
-                'AC Transportes e Serviços LTDA',
-                'GULP SÃO TOMAS',
-                'NUTRIMIX - EXCELÊNCIA EM ALIMENTAÇÃO',
-                'SALADA & TAL ( PAOLA OLIVEIRA COSTA )',
-                'ELEVADORES ATLAS SCHINDLER LTDA',
-                'TK ELEVADORES BRASIL LTDA',
-                'ELEVAÇO LTDA',
-                'JD CONSERVAÇÃO E SERVIÇOS',
-                'QA - IT ANSWER - CONSULTORIA - N1',
-                'QA - IT ANSWER - CONSULTORIA - N2',
-                'MODERNA TURISMO LTDA',
-                'XINGU ELEVADORES',
-                'PHP SERVICE EIRELI',
-                'CAMPOS DE MINAS SERV. ORG. PROG.TURÍSTICOS',
-                'ACCESS GESTÃO DE DOCUMENTOS LTDA',
-                'BOCAINA CIENCIAS NATURAIS & EDUCACAO AMBIENTAL',
-                'NOVA FORMA VIAGENS E TURISMO',
-                'CONSERVADORA CIDADE LC',
-                'CONSERVADORA CIDADE PC',
-                'OTIS ELEVADORES'
-                ]
 opcoes = ['Atende Totalmente', 'Atende Parcialmente', 'Não Atende', 'Não se Aplica']
 
-# Inserir a imagem na sidebar
+
+def carregar_fornecedores():
+    if os.path.exists(CAMINHO_FORNECEDORES):
+        try:
+            from fornecedores import fornecedores
+            return fornecedores
+        except ImportError:
+            return []
+    return []
+
+CAMINHO_FORNECEDORES = 'fornecedores.py'
+
+def salvar_fornecedores(lista):
+    with open(CAMINHO_FORNECEDORES, 'w', encoding='utf-8') as f:
+        f.write('fornecedores = [\n')
+        for item in lista:
+            f.write(f"    '{item}',\n")
+        f.write(']\n')
+
 with st.sidebar:
     st.image("CSA.png", width=150)
 
@@ -73,89 +62,62 @@ unidade = st.sidebar.selectbox('Selecione a unidade', index=None, options=unidad
 periodo = st.sidebar.selectbox('Selecione o período avaliado', index=None, options=meses, placeholder='Defina o período de avaliação')
 fornecedor = st.sidebar.selectbox('Selecione o fornecedor a ser avaliado', index=None, options=fornecedores, placeholder='Selecione o prestador/fornecedor')
 
-# Dicionário de perguntas por fornecedor
-perguntas_por_fornecedor = {
-    'CANTINA FREITAS': {
-        'Documentação': [
-            '1 - Os documentos obrigatórios para análise e faturamento foram entregues dentro do prazo acordado em contrato?',
-            '2 - A contratada apresentou todas as documentações exigidas, conforme contrato com os devidos recolhimentos e pagamentos?',
-            '3 - A Nota Fiscal foi emitida com dados corretos?',
-            '4 - CND-FGTS e CRT, relativos à Regularidade Fiscal e Trabalhista, estão atualizados?',
-            '5 - Apresentam à SIC cópia autenticada do ALVARÁ DE FUNCIONAMENTO, expedido pelos órgãos competentes, por meio do qual a CONTRATADA ficará autorizada a realizar suas atividades comerciais'
-        ]
-    },
-    'EXPRESSA TURISMO LTDA': {
-        'Documentação': [
-            '1 - Os documentos obrigatórios para análise e faturamento foram entregues dentro do prazo acordado em contrato?',
-            '2 - A contratada apresentou todas as documentações exigidas, conforme contrato com os devidos recolhimentos e pagamentos?',
-            '3 - A Nota Fiscal foi emitida com dados corretos?',
-            '4 - A contratada possui autorizações atualizadas (licenças específicas) que a habilitem para a prestação de serviços de transporte, expedidas pelos órgãos competentes (ANTT, DER, DETRAN, BHTRANS e/ou quaisquer outros);'
-            '5 - A Contratada possui seguro de Acidentes pessoais, extensivo aos passageiros, e outros exigidos por Lei?'
-        ]
-    },
-'LEAL VIAGENS E TURISMO': {
-        'Documentação': [
-            '1 - Os documentos obrigatórios para análise e faturamento foram entregues dentro do prazo acordado em contrato?',
-            '2 - A contratada apresentou todas as documentações exigidas, conforme contrato com os devidos recolhimentos e pagamentos?',
-            '3 - A Nota Fiscal foi emitida com dados corretos?',
-            '4 - A contratada possui autorizações atualizadas (licenças específicas) que a habilitem para a prestação de serviços de transporte, expedidas pelos órgãos competentes (ANTT, DER, DETRAN, BHTRANS e/ou quaisquer outros);'
-            '5 - A Contratada possui seguro de Acidentes pessoais, extensivo aos passageiros, e outros exigidos por Lei?'
-        ]
-    },
-'ACREDITE EXCURSÕES E EXPOSIÇÕES INTINERANTE LTDA': {
-        'Documentação': [
-            '1 - Os documentos obrigatórios para análise e faturamento foram entregues dentro do prazo acordado em contrato?',
-            '2 - A contratada apresentou todas as documentações exigidas, conforme contrato com os devidos recolhimentos e pagamentos?',
-            '3 - A Nota Fiscal foi emitida com dados corretos?',
-            '4 - A contratada possui autorizações atualizadas (licenças específicas) que a habilitem para a prestação de serviços de transporte, expedidas pelos órgãos competentes (ANTT, DER, DETRAN, BHTRANS e/ou quaisquer outros);'
-            '5 - A Contratada possui seguro de Acidentes pessoais, extensivo aos passageiros, e outros exigidos por Lei?'
-        ]
-    },
-'REAL VANS LOCAÇÕES': {
-        'Documentação': [
-            '1 - Os documentos obrigatórios para análise e faturamento foram entregues dentro do prazo acordado em contrato?',
-            '2 - A contratada apresentou todas as documentações exigidas, conforme contrato com os devidos recolhimentos e pagamentos?',
-            '3 - A Nota Fiscal foi emitida com dados corretos?',
-            '4 - A contratada possui autorizações atualizadas (licenças específicas) que a habilitem para a prestação de serviços de transporte, expedidas pelos órgãos competentes (ANTT, DER, DETRAN, BHTRANS e/ou quaisquer outros);'
-            '5 - A Contratada possui seguro de Acidentes pessoais, extensivo aos passageiros, e outros exigidos por Lei?'
-        ]
-    },
-'AC TRANSPORTES E SERVIÇOS LTDA - ACTUR': {
-        'Documentação': [
-            '1 - Os documentos obrigatórios para análise e faturamento foram entregues dentro do prazo acordado em contrato?',
-            '2 - A contratada apresentou todas as documentações exigidas, conforme contrato com os devidos recolhimentos e pagamentos?',
-            '3 - A Nota Fiscal foi emitida com dados corretos?',
-            '4 - A contratada possui autorizações atualizadas (licenças específicas) que a habilitem para a prestação de serviços de transporte, expedidas pelos órgãos competentes (ANTT, DER, DETRAN, BHTRANS e/ou quaisquer outros);'
-            '5 - A Contratada possui seguro de Acidentes pessoais, extensivo aos passageiros, e outros exigidos por Lei?'
-        ]
-    },
-'TRANSCELO TRANSPORTES LTDA': {
-        'Documentação': [
-            '1 - Os documentos obrigatórios para análise e faturamento foram entregues dentro do prazo acordado em contrato?',
-            '2 - A contratada apresentou todas as documentações exigidas, conforme contrato com os devidos recolhimentos e pagamentos?',
-            '3 - A Nota Fiscal foi emitida com dados corretos?',
-            '4 - A contratada possui autorizações atualizadas (licenças específicas) que a habilitem para a prestação de serviços de transporte, expedidas pelos órgãos competentes (ANTT, DER, DETRAN, BHTRANS e/ou quaisquer outros);'
-            '5 - A Contratada possui seguro de Acidentes pessoais, extensivo aos passageiros, e outros exigidos por Lei?'
-        ]
-    },
-'MINASCOPY NACIONAL EIRELI': {
-        'Documentação': [
-            '1 - Os documentos obrigatórios para análise e faturamento foram entregues dentro do prazo acordado em contrato?',
-            '2 - A contratada apresentou todas as documentações exigidas, conforme contrato com os devidos recolhimentos e pagamentos?',
-            '3 - A Nota Fiscal foi emitida com dados corretos?',
-            '4 - CND e CRT, relativos à Regularidade Fiscal e Trabalhista, estão atualizados?'
-        ]
-    },
-'OTIMIZA VIGILÂNCIA E SEG. PATRIMONIAL': {
-        'Documentação': [
-            '1 - Os documentos obrigatórios para análise e faturamento foram entregues dentro do prazo acordado em contrato?',
-            '2 - A contratada apresentou todas as documentações exigidas, conforme contrato com os devidos recolhimentos e pagamentos?',
-            '3 - A Nota Fiscal foi emitida com dados corretos?',
-            '4 - CND e CRT, relativos à Regularidade Fiscal e Trabalhista, estão atualizados?'
-        ]
-    },
-    # Adicione outros fornecedores conforme necessário
-}
+st.sidebar.write('---')
+
+with st.sidebar:
+    # Cadastrar novo fornecedor
+    novo_fornecedor = st.text_input('Cadastrar novo fornecedor: ')
+    if st.button('Cadastrar fornecedor'):
+        novo_fornecedor = novo_fornecedor.strip()
+        if novo_fornecedor:
+            if novo_fornecedor not in fornecedores:
+                fornecedores.append(novo_fornecedor)
+                salvar_fornecedores(fornecedores)
+                st.toast(f'Fornecedor "{novo_fornecedor}" adicionado com sucesso!', icon='✅')
+            else:
+                st.warning('Fornecedor já existe na lista')
+        else:
+            st.warning('Por Favor, insira um nome válido')
+        
+# Tela para cadastrar nova pergunta
+@st.dialog("Cadastrar Nova Pergunta", width="large")
+def cadastrar_pergunta():
+    st.subheader("Cadastro de Nova Pergunta")
+    fornecedor = st.selectbox("Selecione o fornecedor", options=fornecedores)
+    categoria = st.text_input("Categoria", placeholder="Ex: Documentação")
+    nova_pergunta = st.text_area("Nova pergunta", placeholder="Digite a nova pergunta aqui")
+
+    if st.button("Salvar"):
+        if fornecedor and categoria and nova_pergunta:
+            # Carregar perguntas existentes
+            from perguntas_por_fornecedor import perguntas_por_fornecedor
+
+            # Adicionar nova pergunta
+            if fornecedor not in perguntas_por_fornecedor:
+                perguntas_por_fornecedor[fornecedor] = {}
+            if categoria not in perguntas_por_fornecedor[fornecedor]:
+                perguntas_por_fornecedor[fornecedor][categoria] = []
+            perguntas_por_fornecedor[fornecedor][categoria].append(nova_pergunta)
+
+            # Salvar de volta no arquivo
+            with open('perguntas_por_fornecedor.py', 'w', encoding='utf-8') as f:
+                f.write('perguntas_por_fornecedor = {\n')
+                for forn, cats in perguntas_por_fornecedor.items():
+                    f.write(f"    '{forn}': {{\n")
+                    for cat, perguntas in cats.items():
+                        f.write(f"        '{cat}': [\n")
+                        for pergunta in perguntas:
+                            f.write(f"            '{pergunta}',\n")
+                        f.write("        ],\n")
+                    f.write("    },\n")
+                f.write('}\n')
+            
+            st.success("Pergunta adicionada com sucesso!")
+        else:
+            st.warning("Por favor, preencha todos os campos.")
+
+if st.sidebar.button("Cadastrar nova pergunta"):
+    cadastrar_pergunta()
 
 # Título
 st.markdown(
