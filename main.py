@@ -161,7 +161,7 @@ def cadastrar_pergunta():
     # Obter lista de fornecedores das unidades
     todos_fornecedores = list(fornecedores_por_unidade.keys())
     fornecedor = st.selectbox("Selecione o fornecedor", options=todos_fornecedores)
-    categoria = st.text_input("Categoria", placeholder="Ex: Documentação")
+    categoria = st.selectbox('Categoria',('Atividades Operacionais', 'Segurança', 'Qualidade'))
     nova_pergunta = st.text_area("Nova pergunta", placeholder="Digite a nova pergunta aqui")
 
     if st.button("Salvar"):
