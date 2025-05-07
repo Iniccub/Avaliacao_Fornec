@@ -199,7 +199,9 @@ if st.sidebar.button("Cadastrar nova pergunta"):
 # Título
 st.markdown(
     "<h1 style='text-align: left; font-family: Open Sauce; color: #104D73;'>"
-    'ADFS - AVALIAÇÃO DE DESEMPENHO DE FORNECEDORES DE SERVIÇOS</h1>',
+    'ADFS - AVALIAÇÃO DE DESEMPENHO DE FORNECEDORES DE SERVIÇOS</h1>'
+    
+    'Categoria: Documentação',
     unsafe_allow_html=True
 )
 
@@ -211,7 +213,6 @@ if fornecedor and unidade and periodo:
     st.write('Vigência: 02/01/2025 a 31/12/2025')
     st.write(f'Unidade: {unidade}')
     st.write(f'Período avaliado: {periodo}')
-    st.write('Categoria: Documentação')
     st.write('---')
 
     # Determinação das abas
