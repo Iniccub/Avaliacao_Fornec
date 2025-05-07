@@ -4,9 +4,26 @@ import os
 from openpyxl import load_workbook
 from streamlit_js_eval import streamlit_js_eval
 from io import BytesIO
-from fornecedores import fornecedores
-from unidades import unidades
-from perguntas_por_fornecedor import perguntas_por_fornecedor
+import importlib.util
+import sys
+
+# Função para importar módulos dinamicamente
+def import_module(module_name, file_path):
+    spec = importlib.util.spec_from_file_location(module_name, file_path)
+    module = importlib.util.module_from_spec(spec)
+    sys.modules[module_name] = module
+    spec.loader.exec_module(module)
+    return module
+
+# Importar módulos locais
+fornecedores_module = import_module('fornecedores_por_unidade', 'fornecedores_por_unidade.py')
+unidades_module = import_module('unidades', 'unidades.py')
+perguntas_module = import_module('perguntas_por_fornecedor', 'perguntas_por_fornecedor.py')
+
+# Acessar os atributos dos módulos
+fornecedores_por_unidade = getattr(fornecedores_module, 'fornecedores_por_unidade', {})
+unidades = getattr(unidades_module, 'unidades', [])
+perguntas_por_fornecedor = getattr(perguntas_module, 'perguntas_por_fornecedor', {})
 
 st.set_page_config(
     page_title='Avaliação de Fornecedores - SUP',
@@ -15,8 +32,20 @@ st.set_page_config(
 )
 
 # Listas fixas
-meses = ['31/01/2025', '28/02/2025', '31/03/2025', '30/04/2025', '31/05/2025', '30/06/2025', '31/07/2025', '31/08/2025',
+meses_raw = ['31/01/2025', '28/02/2025', '31/03/2025', '30/04/2025', '31/05/2025', '30/06/2025', '31/07/2025', '31/08/2025',
          '30/09/2025', '31/10/2025', '30/11/2025', '31/12/2025']
+
+# Dicionário para converter números de mês em abreviações em português
+meses_abrev = {
+    '01': 'JAN', '02': 'FEV', '03': 'MAR', '04': 'ABR',
+    '05': 'MAI', '06': 'JUN', '07': 'JUL', '08': 'AGO',
+    '09': 'SET', '10': 'OUT', '11': 'NOV', '12': 'DEZ'
+}
+
+# Formatar os meses para exibição
+meses = [f"{meses_abrev[data.split('/')[1]]}/{data.split('/')[2][-2:]}" for data in meses_raw]
+
+# Opções de respostas
 opcoes = ['Atende Totalmente', 'Atende Parcialmente', 'Não Atende', 'Não se Aplica']
 
 
@@ -29,14 +58,54 @@ def carregar_fornecedores():
             return []
     return []
 
-CAMINHO_FORNECEDORES = 'fornecedores.py'
+CAMINHO_FORNECEDORES = 'fornecedores_por_unidade.py'
 
-def salvar_fornecedores(lista):
+def salvar_fornecedores(fornecedor, unidades_selecionadas):
+    try:
+        # Tentar carregar o dicionário existente
+        with open(CAMINHO_FORNECEDORES, 'r', encoding='utf-8') as f:
+            content = f.read()
+            if content.strip():
+                # Executar o conteúdo do arquivo para obter o dicionário
+                local_dict = {}
+                exec(content, {}, local_dict)
+                fornecedores_dict = local_dict.get('fornecedores_por_unidade', {})
+            else:
+                fornecedores_dict = {}
+    except FileNotFoundError:
+        fornecedores_dict = {}
+
+    # Adicionar novo fornecedor mantendo os existentes
+    fornecedores_dict[fornecedor] = unidades_selecionadas
+
+    # Salvar o dicionário atualizado de volta no arquivo
     with open(CAMINHO_FORNECEDORES, 'w', encoding='utf-8') as f:
-        f.write('fornecedores = [\n')
-        for item in lista:
-            f.write(f"    '{item}',\n")
-        f.write(']\n')
+        f.write('fornecedores_por_unidade = {\n')
+        for forn, units in fornecedores_dict.items():
+            f.write(f"    '{forn}': {units},\n")
+        f.write('}\n')
+
+    # Atualizar o módulo e retornar o dicionário atualizado
+    fornecedores_module = import_module('fornecedores_por_unidade', 'fornecedores_por_unidade.py')
+    return getattr(fornecedores_module, 'fornecedores_por_unidade', {})
+
+@st.dialog("Cadastrar Novo Fornecedor", width="large")
+def cadastrar_fornecedor():
+    st.subheader("Cadastro de Novo Fornecedor")
+    novo_fornecedor = st.text_input('Nome do fornecedor')
+    unidades_selecionadas = st.multiselect("Selecione as unidades", options=unidades)
+
+    if st.button("Salvar"):
+        novo_fornecedor = novo_fornecedor.strip()
+        if novo_fornecedor and unidades_selecionadas:
+            if novo_fornecedor not in fornecedores_por_unidade:
+                # Salvar o novo fornecedor com suas unidades
+                salvar_fornecedores(novo_fornecedor, unidades_selecionadas)
+                st.toast(f'Fornecedor "{novo_fornecedor}" adicionado com sucesso!', icon='✅')
+            else:
+                st.warning('Fornecedor já existe na lista')
+        else:
+            st.warning('Por favor, preencha o nome do fornecedor e selecione pelo menos uma unidade')
 
 with st.sidebar:
     st.image("CSA.png", width=150)
@@ -60,30 +129,38 @@ st.sidebar.write('---')
 # Sidebar, Caixas de seleção da unidade, período e fornecedor
 unidade = st.sidebar.selectbox('Selecione a unidade', index=None, options=unidades, placeholder='Escolha a unidade')
 periodo = st.sidebar.selectbox('Selecione o período avaliado', index=None, options=meses, placeholder='Defina o período de avaliação')
-fornecedor = st.sidebar.selectbox('Selecione o fornecedor a ser avaliado', index=None, options=fornecedores, placeholder='Selecione o prestador/fornecedor')
+
+# Filtrar fornecedores baseado na unidade selecionada
+if unidade:
+    # Obter fornecedores que atendem a unidade selecionada
+    fornecedores_filtrados = [
+        fornecedor for fornecedor, unidades in fornecedores_por_unidade.items()
+        if unidade in unidades
+    ]
+    fornecedor = st.sidebar.selectbox('Selecione o fornecedor a ser avaliado', 
+                                     index=None, 
+                                     options=fornecedores_filtrados, 
+                                     placeholder='Selecione o prestador/fornecedor')
+else:
+    fornecedor = st.sidebar.selectbox('Selecione o fornecedor a ser avaliado', 
+                                     index=None, 
+                                     options=[], 
+                                     placeholder='Primeiro selecione uma unidade')
 
 st.sidebar.write('---')
 
 with st.sidebar:
     # Cadastrar novo fornecedor
-    novo_fornecedor = st.text_input('Cadastrar novo fornecedor: ')
     if st.button('Cadastrar fornecedor'):
-        novo_fornecedor = novo_fornecedor.strip()
-        if novo_fornecedor:
-            if novo_fornecedor not in fornecedores:
-                fornecedores.append(novo_fornecedor)
-                salvar_fornecedores(fornecedores)
-                st.toast(f'Fornecedor "{novo_fornecedor}" adicionado com sucesso!', icon='✅')
-            else:
-                st.warning('Fornecedor já existe na lista')
-        else:
-            st.warning('Por Favor, insira um nome válido')
-        
+        cadastrar_fornecedor()
+
 # Tela para cadastrar nova pergunta
 @st.dialog("Cadastrar Nova Pergunta", width="large")
 def cadastrar_pergunta():
     st.subheader("Cadastro de Nova Pergunta")
-    fornecedor = st.selectbox("Selecione o fornecedor", options=fornecedores)
+    # Obter lista de fornecedores das unidades
+    todos_fornecedores = list(fornecedores_por_unidade.keys())
+    fornecedor = st.selectbox("Selecione o fornecedor", options=todos_fornecedores)
     categoria = st.text_input("Categoria", placeholder="Ex: Documentação")
     nova_pergunta = st.text_area("Nova pergunta", placeholder="Digite a nova pergunta aqui")
 
@@ -126,8 +203,6 @@ st.markdown(
     unsafe_allow_html=True
 )
 
-st.subheader('Categoria: Documentação')
-
 st.write('---')
 
 # Subtitulo
@@ -136,6 +211,7 @@ if fornecedor and unidade and periodo:
     st.write('Vigência: 02/01/2025 a 31/12/2025')
     st.write(f'Unidade: {unidade}')
     st.write(f'Período avaliado: {periodo}')
+    st.write('Categoria: Documentação')
     st.write('---')
 
     # Determinação das abas
@@ -148,7 +224,7 @@ if fornecedor and unidade and periodo:
     perguntas_fornecedor = perguntas_por_fornecedor.get(fornecedor, {})
 
     with tab1:
-        perguntas_tab1 = perguntas_fornecedor.get('Documentação', [])
+        perguntas_tab1 = perguntas_fornecedor.get('Atividades Operacionais', [])
         for pergunta in perguntas_tab1:
             resposta = st.selectbox(pergunta, options=opcoes, index=None, placeholder='Selecione uma opção', key=pergunta)
             respostas.append(resposta)
