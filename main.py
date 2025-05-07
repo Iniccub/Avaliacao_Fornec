@@ -260,7 +260,7 @@ if fornecedor and unidade and periodo:
             # Cria DataFrame com as respostas
             df_respostas = pd.DataFrame({
                 'Unidade': unidade,
-                'Período': meses_raw[meses.index(periodo)],  # Obtém a data completa usando o índice do mês abreviado
+                'Período': meses_raw[meses.index(periodo)],
                 'Fornecedor': fornecedor,
                 'categorias': categorias,
                 'Pergunta': perguntas,
@@ -271,7 +271,18 @@ if fornecedor and unidade and periodo:
             nome_fornecedor = fornecedor.replace(' ', '_')
             nome_periodo = periodo.replace('/', '-')
             nome_unidade = unidade
-            nome_arquivo = f'{nome_fornecedor}_{nome_periodo}_{unidade}.xlsx'
+            nome_arquivo = f'{nome_fornecedor}_{nome_periodo}_{nome_unidade}.xlsx'
+            
+            # Define o caminho completo do arquivo
+            caminho_pasta = r'Z:\Administrativo e Suprimentos\GESTÃO DE FORNECEDORES\RESPOSTAS AVALIAÇÕES DE FORNECEDORES'
+            caminho_completo = os.path.join(caminho_pasta, nome_arquivo)
+
+            try:
+                # Salvar o DataFrame diretamente no arquivo Excel
+                df_respostas.to_excel(caminho_completo, index=False)
+                st.success(f'Arquivo salvo com sucesso em: {caminho_completo}')
+            except Exception as e:
+                st.error(f'Erro ao salvar o arquivo: {str(e)}. Verifique se você tem permissão de acesso à pasta de rede.')
 
             # Salva o DataFrame em um objeto BytesIO
             output = BytesIO()
@@ -280,12 +291,12 @@ if fornecedor and unidade and periodo:
             output.seek(0)
 
             # Cria um botão de download no Streamlit
-            st.download_button(
-                label='Clique aqui para baixar o arquivo Excel com as respostas',
-                data=output,
-                file_name=nome_arquivo,
-                mime='application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'
-            )
+            #st.download_button(
+                #label='Clique aqui para baixar o arquivo Excel com as respostas',
+                #data=output,
+                #file_name=nome_arquivo,
+                #mime='application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'
+            #)
 
             st.success('Respostas processadas com sucesso! Você pode baixar o arquivo acima')
     else:
