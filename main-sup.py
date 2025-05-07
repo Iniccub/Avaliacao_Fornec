@@ -246,7 +246,7 @@ if fornecedor and unidade and periodo:
             # Cria DataFrame com as respostas
             df_respostas = pd.DataFrame({
                 'Unidade': unidade,
-                'Período': periodo,
+                'Período': meses_raw[meses.index(periodo)],  # Obtém a data completa usando o índice do mês abreviado
                 'Fornecedor': fornecedor,
                 'categorias': categorias,
                 'Pergunta': perguntas,
