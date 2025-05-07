@@ -147,12 +147,12 @@ else:
                                      options=[], 
                                      placeholder='Primeiro selecione uma unidade')
 
-st.sidebar.write('---')
+#st.sidebar.write('---')
 
-with st.sidebar:
+#with st.sidebar:
     # Cadastrar novo fornecedor
-    if st.button('Cadastrar fornecedor'):
-        cadastrar_fornecedor()
+    #if st.button('Cadastrar fornecedor'):
+        #cadastrar_fornecedor()
 
 # Tela para cadastrar nova pergunta
 @st.dialog("Cadastrar Nova Pergunta", width="large")
@@ -193,8 +193,8 @@ def cadastrar_pergunta():
         else:
             st.warning("Por favor, preencha todos os campos.")
 
-if st.sidebar.button("Cadastrar nova pergunta"):
-    cadastrar_pergunta()
+#if st.sidebar.button("Cadastrar nova pergunta"):
+    #cadastrar_pergunta()
 
 # Título
 st.markdown(
